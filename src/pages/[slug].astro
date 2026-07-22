@@ -1,0 +1,22 @@
+---
+// src/pages/[slug].astro  →  Invitación PERSONALIZADA por invitado
+// Genera una página por cada invitado del Excel (via src/data/invitados.json).
+import Layout from "../layouts/Layout.astro";
+import Portada2 from "../components/Portada2.astro";
+import CuerpoInvitacion from "../components/CuerpoInvitacion.astro";
+import invitados from "../data/invitados.json";
+
+export function getStaticPaths() {
+    return invitados.map((inv) => ({
+        params: { slug: inv.slug },
+        props: { nombre: inv.nombre, pases: inv.pases },
+    }));
+}
+
+const { nombre, pases } = Astro.props;
+---
+
+<Layout title={`Boda Fátima & Rodrigo — ${nombre}`}>
+    <Portada2 nombreInvitado={nombre} numeroPases={pases} />
+    <CuerpoInvitacion />
+</Layout>
